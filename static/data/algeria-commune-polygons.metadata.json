@@ -1,0 +1,45 @@
+{
+  "title": "Algeria commune boundary polygons",
+  "feature_count": 1541,
+  "geometry_types": {
+    "Polygon": 1527,
+    "MultiPolygon": 14
+  },
+  "sources": [
+    {
+      "feature_count": 1540,
+      "source": "OpenStreetMap administrative boundary relations, matched by relation ID",
+      "retrieved": "2026-10-24T13:54:21Z",
+      "license": "ODbL-1.0",
+      "attribution": "© OpenStreetMap contributors",
+      "url": "https://www.openstreetmap.org/copyright"
+    },
+    {
+      "feature_count": 2,
+      "source": "OpenStreetMap administrative boundary relations, fetched separately by relation ID",
+      "retrieved": "2026-10-24T13:56:21Z",
+      "license": "ODbL-1.0",
+      "attribution": "© OpenStreetMap contributors",
+      "url": "https://www.openstreetmap.org/copyright"
+    },
+    {
+      "feature_count": 1,
+      "commune": "Dhayet Bendhahoua",
+      "source": "geoBoundaries Algeria ADM3",
+      "boundary_year": 2021,
+      "license": "CC BY-SA 2.0",
+      "url": "https://www.geoboundaries.org/api/current/gbOpen/DZA/ADM3/"
+    }
+  ],
+  "simplification": {
+    "method": "Douglas-Peucker applied to boundary rings",
+    "tolerance_degrees": 0.00015,
+    "vertices": 371179,
+    "rings": 1586
+  },
+  "notes": [
+    "Communes are rendered as areas, not centre points.",
+    "Dhayet Bendhahoua has no OSM relation ID in the catalogue and uses the geoBoundaries fallback outline.",
+    "Boundary lines are crowdsourced or derived geographic outlines, not official cadastral surveys."
+  ]
+}

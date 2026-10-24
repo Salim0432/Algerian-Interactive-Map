@@ -1,0 +1,111 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101d22">
+  <title>Algeria Atlas — Wilayas & Communes</title>
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="preconnect" href="https://tile.openstreetmap.org">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="{% static 'mapapp/styles.css' %}?v=list-options">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Algeria Atlas home">
+      <span class="brand-mark" aria-hidden="true">A</span>
+      <span>Algeria<span class="brand-light">Atlas</span></span>
+    </a>
+    <div class="topbar-note"><span class="live-dot"></span> 69 wilayas <span class="topbar-date">· 551 daïras · 1,541 communes · 2026</span></div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <div class="intro">
+        <p class="eyebrow">Explore Algeria</p>
+        <h1>Algeria, <em>up close.</em></h1>
+        <p class="intro-copy">Explore 69 wilayas and 1,541 real commune boundary shapes. Select a wilaya to see its communes.</p>
+      </div>
+
+      <div class="search-wrap">
+        <label class="sr-only" for="search">Search wilayas and communes</label>
+        <span class="search-icon" aria-hidden="true">⌕</span>
+        <input id="search" type="search" placeholder="Search a wilaya or commune…" autocomplete="off">
+        <kbd>/</kbd>
+      </div>
+
+      <div class="filter-row" role="group" aria-label="Map boundary level">
+        <button class="filter" type="button" data-level="all">All <span id="all-count">—</span></button>
+        <button class="filter active" type="button" data-level="wilaya">Wilayas <span id="wilaya-count">—</span></button>
+        <button class="filter" type="button" data-level="commune">Communes <span id="commune-count">—</span></button>
+      </div>
+
+      <section class="results-section" aria-label="Map locations">
+        <div class="section-heading">
+          <h2 id="results-title">Regions</h2>
+          <div class="section-actions">
+            <span id="results-count" class="result-count">Loading…</span>
+            <button id="list-options-toggle" class="list-options-toggle" type="button"
+                    aria-expanded="false" aria-controls="list-options" title="List options">
+              <span aria-hidden="true">☷</span><span class="sr-only">List options</span>
+            </button>
+          </div>
+        </div>
+        <div id="list-options" class="list-options" hidden>
+          <label for="display-language">Names</label>
+          <select id="display-language">
+            <option value="fr">Français</option>
+            <option value="ar">العربية</option>
+          </select>
+          <label for="sort-order">Sort</label>
+          <select id="sort-order">
+            <option value="name">Name A–Z</option>
+            <option value="code">Administrative code</option>
+            <option value="communes">Most communes</option>
+          </select>
+        </div>
+        <button id="context-back" class="context-back" type="button" hidden>← All wilayas</button>
+        <div id="results" class="results" aria-live="polite">
+          <div class="loading-card"><span class="spinner"></span> Loading boundary data…</div>
+        </div>
+      </section>
+
+      <details class="source-note">
+        <summary><span class="note-icon" aria-hidden="true">i</span><span>Data & sources</span><span class="source-chevron" aria-hidden="true">⌄</span></summary>
+        <div class="source-content">
+          <p><strong>Boundary data</strong><br>Communes are shown as area polygons. Most outlines follow OpenStreetMap administrative boundaries; one commune uses an older open outline.</p>
+          <a href="https://github.com/yasserstudio/geoalgeria" target="_blank" rel="noopener noreferrer">Dataset & attribution <span aria-hidden="true">↗</span></a>
+        </div>
+      </details>
+    </aside>
+
+    <section class="map-panel" aria-label="Interactive map of Algeria">
+      <div id="map" role="application" aria-label="Map showing only Algeria's wilayas and communes"></div>
+      <div class="map-controls" aria-label="Map display options">
+        <button id="fit-map" class="map-control" type="button" title="Show all Algeria" aria-label="Show all Algeria">⌗</button>
+        <button id="toggle-labels" class="map-control" type="button" aria-pressed="false" title="Toggle labels">Aa</button>
+      </div>
+      <div class="map-compass" aria-label="North is up"><span>N</span><i aria-hidden="true"></i></div>
+      <div id="selection-card" class="selection-card" hidden></div>
+      <div class="map-legend"><span class="legend-swatch wilaya-swatch"></span> Wilaya <span class="legend-swatch commune-swatch"></span> Commune boundary</div>
+      <div class="map-credit">Boundary data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a> · ODbL</div>
+      <div id="map-error" class="map-error" role="alert" hidden></div>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="https://unpkg.com/@turf/turf@7.2.0/turf.min.js"></script>
+  <script>
+    window.ALG_MAP_DATA = {
+      wilayas: "{% static 'data/algeria-wilayas-69.geojson' %}",
+      communes: "{% static 'data/algeria-commune-polygons.geojson' %}",
+      wilayaRecords: "{% static 'data/algeria-wilaya-records.json' %}",
+      summary: "{% url 'summary' %}"
+    };
+  </script>
+  <script src="{% static 'mapapp/app.js' %}?v=list-options" defer></script>
+</body>
+</html>
